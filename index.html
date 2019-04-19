@@ -8,6 +8,10 @@
                 font-weight: bold;
                 color: blue;
             }
+            .red
+            {
+                color: red;
+            }
         </style>
     </head>
     
@@ -27,6 +31,7 @@
                 </div>
                 <button id='btnSubmit' type="button" class="btn btn-primary float-right">Add Job</button>
                 <div class="clearfix"></div>
+                <div id="error"></div>
             </form>  
             
             <!--list group-->
@@ -54,6 +59,8 @@
             function initializeModel()
             {
                 model.jobs = [];
+                model.descError = false;
+                model.sqError = false;
             }
             
             // view...
@@ -68,6 +75,16 @@
                     item.html("<span class='bold'> Description: </span>" + model.jobs[i].desc + 
                               "<span class='bold'> Square Feet: </span>" + model.jobs[i].sqFt);
                     $('#jobList').append(item);
+                    
+                }
+                
+                $('#error').empty();
+                if(model.descError == true || model.sqError == true)
+                {
+                    let err = $("<p></p>");
+                    err.addClass("red");
+                    err.text("Please enter a description and number of square feet.");
+                    $('#error').append(err);
                 }
             }            
             
@@ -76,7 +93,14 @@
             {
                 let desc = $('#jobDesc').val().trim();
                 let sqFeet = $('#sqFt').val().trim();
-                model.jobs.push({ desc: desc, sqFt: sqFeet});
+                model.descError = false;
+                model.sqError = false;
+                if(desc == "")
+                    model.descError = true;
+                else if(sqFeet == "")
+                    model.sqError = true;
+                else
+                    model.jobs.push({ desc: desc, sqFt: sqFeet});
                 updateView();
             });
             
