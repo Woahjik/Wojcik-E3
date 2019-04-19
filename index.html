@@ -38,8 +38,9 @@
             <div class='p-2 bg-dark'>
                 <h5 class='text-light'>Jobs</h5>
                 <ul id='jobList' class="list-group">
-                </ul>            
+                </ul>
             </div>
+            <h5>NOTE: The cost assumes a can of paint costs $10 and can cover 100 square feet.</h5>
 
         </div>
         
@@ -73,7 +74,8 @@
                     item.attr('id', model.jobs[i].id);
                     item.addClass("list-group-item");
                     item.html("<span class='bold'> Description: </span>" + model.jobs[i].desc + 
-                              "<span class='bold'> Square Feet: </span>" + model.jobs[i].sqFt);
+                              "<span class='bold'> Square Feet: </span>" + model.jobs[i].sqFt +
+                              "<span class='bold'> Cost: $</span>" + model.jobs[i].cost);
                     $('#jobList').append(item);
                     
                 }
@@ -93,6 +95,7 @@
             {
                 let desc = $('#jobDesc').val().trim();
                 let sqFeet = $('#sqFt').val().trim();
+                var cost = sqFeet / 10;
                 model.descError = false;
                 model.sqError = false;
                 if(desc == "")
@@ -100,7 +103,7 @@
                 else if(sqFeet == "")
                     model.sqError = true;
                 else
-                    model.jobs.push({ desc: desc, sqFt: sqFeet});
+                    model.jobs.push({ desc: desc, sqFt: sqFeet, cost: cost});
                 updateView();
             });
             
